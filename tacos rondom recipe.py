@@ -1,5 +1,8 @@
+import docx
 from  PIL import Image, ImageDraw, ImageFont  # this imports the image and image font when i'm doing my project for the image part
-
+import requests
+from docx import Document
+from docx.shared import Inches
 #  Brian Hullan ITEC 1150-60. This is my final project code tha will generate a recipe book of taco recipes including a rondom pictur of a tco and three rondomly genrated recipes.
 
 
@@ -37,6 +40,68 @@ image.show()  # this shows the image when every thing is typed and resized the p
 #  since i finished everything i'm going to go head and save my picture so that it appears on the project side
 
 image.save('Rondom tacos recipe .jpeg')   # Saving the image as this will show up on the project side and i will be able to access it
+
+# this next seciton of code will create the data for the Rondom Taco cookbook and the image on word document
+
+# for my next step i'm going to create lists to store dictionaries in
+
+Three_tacos =[]    # this list i will be using to creat dictionaries for my three taco recipes
+
+# my other step would be going over the loop to put and take the Three tacos for my project
+
+for i in range(3):    # i'm useing a for loop here to get the result for the url three tacos recipe
+
+        Three_tacos_recipes_url_data = requests.get('https://taco-1150.herokuapp.com/random/?full_taco=true').json()   #
+        Three_tacos .append(Three_tacos_recipes_url_data) # this one is added list for the three tacos
+        print(Three_tacos)  # this will print the three tacos
+
+# this next section  of the library let';s me create word document
+word_document = docx.Document()  # start with a new blank page
+
+word_document.add_paragraph('Rondom Taco Cookbook', 'Title')  # add a title for Rondom taco recipe
+
+
+word_document.add_picture('Rondom tacos recipe .jpeg',width=Inches(5.0), height=Inches(6.78))  # adding the image on word
+
+
+word_document.add_paragraph('Christine Siracusa')  # this will be printed under the picture
+
+word_document.add_paragraph('https://unsplash.com/photos/vzX2rgUbQXM')  # this is the url where i get the picture from
+
+word_document.add_paragraph('Mohamed Adan')  # the code was created by me
+
+word_document.add_page_break()   # this is going to be a pager break for the all five components of the recipe.
+
+
+# for my next step is going ta have all five components of the recipe. and loop over them
+
+for i in range(len(Three_tacos)):    # this looping is going to pull the five taco recipes
+        word_document.add_paragraph(Three_tacos[0]["seasoning"]["recipe"])
+
+        # the first three tacos going to print will be seasoning recipe
+        word_document.add_paragraph(Three_tacos[0]["condiment"]["recipe"])
+
+        # the second one is going to be condiment recipe
+        word_document.add_paragraph(Three_tacos[0]["mixin"]["recipe"])
+
+        # the third one is going to be the mixin recipe
+        word_document.add_paragraph(Three_tacos[0]["base_layer"]["recipe"])
+
+        # the fourth one is going to be base layer
+        word_document.add_paragraph(Three_tacos[0]["shell"]["recipe"])
+
+        # the last one is going to be shell recipe
+
+
+
+        #  save my word document
+
+
+word_document.save('all five components of the recipe..docx')   # this is going to save the word document
+
+
+
+
 
 
 
